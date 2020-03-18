@@ -6,13 +6,14 @@
 
 #include <string>
 
-#include "llvmir2hll/ir/statement.h"
-#include "llvmir2hll/pattern/pattern_finder_runners/cli_pattern_finder_runner.h"
-#include "llvmir2hll/support/debug.h"
-#include "llvm-support/diagnostics.h"
+#include "retdec/llvmir2hll/ir/statement.h"
+#include "retdec/llvmir2hll/pattern/pattern_finder_runners/cli_pattern_finder_runner.h"
+#include "retdec/llvmir2hll/support/debug.h"
+#include "retdec/llvm-support/diagnostics.h"
 
-using namespace llvm_support;
+using namespace retdec::llvm_support;
 
+namespace retdec {
 namespace llvmir2hll {
 
 namespace {
@@ -29,11 +30,6 @@ const std::string PATTERN_INFO_INDENT = "      ";
 */
 CLIPatternFinderRunner::CLIPatternFinderRunner(llvm::raw_ostream &os):
 	os(os) {}
-
-/**
-* @brief Destructs the finder.
-*/
-CLIPatternFinderRunner::~CLIPatternFinderRunner() {}
 
 /**
 * @brief Prints a sub-phase saying that the given finder is run.
@@ -64,3 +60,4 @@ void CLIPatternFinderRunner::printPatternInfo(const ShPtr<Pattern> &p) {
 }
 
 } // namespace llvmir2hll
+} // namespace retdec

@@ -7,12 +7,13 @@
 #include <regex>
 #include <sstream>
 
-#include "bin2llvmir/optimizations/dsm_generator/dsm_generator.h"
+#include "retdec/bin2llvmir/optimizations/dsm_generator/dsm_generator.h"
 #include "bin2llvmir/utils/llvmir_tests.h"
 
 using namespace ::testing;
 using namespace llvm;
 
+namespace retdec {
 namespace bin2llvmir {
 namespace tests {
 
@@ -37,12 +38,12 @@ TEST_F(DsmGeneratorTests, testHeaderGeneration)
 			"name" : "arm"
 		}
 	})");
+	auto abi = AbiProvider::addAbi(module.get(), &c);
 	auto format = createFormat();
 	auto image = FileImage(module.get(), std::move(format), &c);
-	ASSERT_TRUE(image.isOk());
 
 	std::stringstream ret;
-	bool b = pass.runOnModuleCustom(*module, &c, &image, ret);
+	bool b = pass.runOnModuleCustom(*module, &c, &image, abi, ret);
 
 	std::string ref =
 R"(^;;
@@ -74,3 +75,4 @@ R"(^;;
 
 } // namespace tests
 } // namespace bin2llvmir
+} // namespace retdec

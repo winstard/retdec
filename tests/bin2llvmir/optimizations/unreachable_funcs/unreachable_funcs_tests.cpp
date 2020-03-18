@@ -4,12 +4,13 @@
 * @copyright (c) 2017 Avast Software, licensed under the MIT license
 */
 
-#include "bin2llvmir/optimizations/unreachable_funcs/unreachable_funcs.h"
+#include "retdec/bin2llvmir/optimizations/unreachable_funcs/unreachable_funcs.h"
 #include "bin2llvmir/utils/llvmir_tests.h"
 
 using namespace ::testing;
 using namespace llvm;
 
+namespace retdec {
 namespace bin2llvmir {
 namespace tests {
 
@@ -60,6 +61,16 @@ TEST_F(UnreachableFuncsTests, addressOfFunc01)
 		  ret i32 0
 		}
 	)");
+	ConfigProvider::addConfigJsonString(module.get(), R"({
+		"mainAddress" : "0x1000",
+		"functions" :
+		[
+			{
+				"startAddr" : "0x1000",
+				"name" : "main"
+			}
+		]
+	})");
 
 	runOnModule();
 
@@ -110,6 +121,16 @@ TEST_F(UnreachableFuncsTests, funcInGlobalVarInit)
 		  ret i32 0
 		}
 	)");
+	ConfigProvider::addConfigJsonString(module.get(), R"({
+		"mainAddress" : "0x1000",
+		"functions" :
+		[
+			{
+				"startAddr" : "0x1000",
+				"name" : "main"
+			}
+		]
+	})");
 
 	runOnModule();
 
@@ -220,6 +241,16 @@ TEST_F(UnreachableFuncsTests, indirectCall01)
 		  ret i32 0
 		}
 	)");
+	ConfigProvider::addConfigJsonString(module.get(), R"({
+		"mainAddress" : "0x1000",
+		"functions" :
+		[
+			{
+				"startAddr" : "0x1000",
+				"name" : "main"
+			}
+		]
+	})");
 
 	runOnModule();
 
@@ -306,6 +337,16 @@ TEST_F(UnreachableFuncsTests, mainAndFuncs01)
 		  ret i32 0
 		}
 	)");
+	ConfigProvider::addConfigJsonString(module.get(), R"({
+		"mainAddress" : "0x1000",
+		"functions" :
+		[
+			{
+				"startAddr" : "0x1000",
+				"name" : "main"
+			}
+		]
+	})");
 
 	runOnModule();
 
@@ -354,6 +395,16 @@ TEST_F(UnreachableFuncsTests, mainAndFuncs02)
 		  ret i32 0
 		}
 	)");
+	ConfigProvider::addConfigJsonString(module.get(), R"({
+		"mainAddress" : "0x1000",
+		"functions" :
+		[
+			{
+				"startAddr" : "0x1000",
+				"name" : "main"
+			}
+		]
+	})");
 
 	runOnModule();
 
@@ -404,6 +455,16 @@ TEST_F(UnreachableFuncsTests, mainAndFuncs03)
 		  ret i32 0
 		}
 	)");
+	ConfigProvider::addConfigJsonString(module.get(), R"({
+		"mainAddress" : "0x1000",
+		"functions" :
+		[
+			{
+				"startAddr" : "0x1000",
+				"name" : "main"
+			}
+		]
+	})");
 
 	runOnModule();
 
@@ -469,6 +530,16 @@ TEST_F(UnreachableFuncsTests, mainAndFuncs04)
 		  ret i32 0
 		}
 	)");
+	ConfigProvider::addConfigJsonString(module.get(), R"({
+		"mainAddress" : "0x1000",
+		"functions" :
+		[
+			{
+				"startAddr" : "0x1000",
+				"name" : "main"
+			}
+		]
+	})");
 
 	runOnModule();
 
@@ -501,7 +572,7 @@ TEST_F(UnreachableFuncsTests, mainOnlyDeclaration)
 	parseInput(R"(
 		; When the main function is just a declaration (i.e. it has no body), behave
 		; like there is no main function. This is needed when decompiling shared
-		; libraries containing an import of main (see #1387).
+		; libraries containing an import of main.
 
 		; Can't be optimized (see above).
 		define void @func() {
@@ -512,6 +583,16 @@ TEST_F(UnreachableFuncsTests, mainOnlyDeclaration)
 		; Can't be optimized.
 		declare i32 @main(i32 %arg1, i8** nocapture %arg2)
 	)");
+	ConfigProvider::addConfigJsonString(module.get(), R"({
+		"mainAddress" : "0x1000",
+		"functions" :
+		[
+			{
+				"startAddr" : "0x1000",
+				"name" : "main"
+			}
+		]
+	})");
 
 	runOnModule();
 
@@ -603,6 +684,16 @@ TEST_F(UnreachableFuncsTests, onlyMain01)
 		  ret i32 0
 		}
 	)");
+	ConfigProvider::addConfigJsonString(module.get(), R"({
+		"mainAddress" : "0x1000",
+		"functions" :
+		[
+			{
+				"startAddr" : "0x1000",
+				"name" : "main"
+			}
+		]
+	})");
 
 	runOnModule();
 
@@ -638,6 +729,16 @@ TEST_F(UnreachableFuncsTests, onlyMain02)
 		  ret i32 0
 		}
 	)");
+	ConfigProvider::addConfigJsonString(module.get(), R"({
+		"mainAddress" : "0x1000",
+		"functions" :
+		[
+			{
+				"startAddr" : "0x1000",
+				"name" : "main"
+			}
+		]
+	})");
 
 	runOnModule();
 
@@ -659,3 +760,4 @@ TEST_F(UnreachableFuncsTests, onlyMain02)
 
 } // namespace tests
 } // namespace bin2llvmir
+} // namespace retdec
